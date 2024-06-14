@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <environments>Default</environments>
+    <interviewLabel>GM || New Payment for Each Enrollment {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>GM 26 || New Payment for Each Enrollment</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Payment</name>
+        <label>Create Payment</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <inputAssignments>
+            <field>Amount__c</field>
+            <value>
+                <elementReference>$Record.Amount__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Member__c</field>
+            <value>
+                <elementReference>$Record.Member__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Membership_End_Date__c</field>
+            <value>
+                <elementReference>$Record.Member__r.Membership_Valid_To__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Membership_Start_Date__c</field>
+            <value>
+                <elementReference>$Record.Member__r.Membership_Valid_From__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Payment_Status__c</field>
+            <value>
+                <stringValue>Not Paid</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Payment__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Create_Payment</targetReference>
+        </connector>
+        <object>Enrollment__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

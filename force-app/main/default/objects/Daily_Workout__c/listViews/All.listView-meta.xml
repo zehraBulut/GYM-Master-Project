@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>All</fullName>
+    <columns>NAME</columns>
+    <columns>Activity__c</columns>
+    <columns>Activity_Name__c</columns>
+    <columns>Workout_Date__c</columns>
+    <columns>Workout_Day__c</columns>
+    <columns>Sets__c</columns>
+    <columns>Reps__c</columns>
+    <columns>Rest_Time__c</columns>
+    <columns>Sets_Completed__c</columns>
+    <columns>Reps_Completed__c</columns>
+    <columns>Status__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>All</label>
+</ListView>

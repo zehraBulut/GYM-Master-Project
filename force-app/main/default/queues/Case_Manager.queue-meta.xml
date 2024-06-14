@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Queue xmlns="http://soap.sforce.com/2006/04/metadata">
+    <doesSendEmailToMembers>false</doesSendEmailToMembers>
+    <email>zhrblt83@gmail.com</email>
+    <name>Case Manager</name>
+    <queueMembers>
+        <users>
+            <user>zehra.bulut@flowcourse.com</user>
+            <user>destin@abc.com</user>
+            <user>zhrblt835@gxxx.com</user>
+        </users>
+    </queueMembers>
+    <queueSobject>
+        <sobjectType>Case</sobjectType>
+    </queueSobject>
+</Queue>

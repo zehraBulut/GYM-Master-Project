@@ -1,0 +1,15 @@
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="stages" type="String" label="Comma-Separated List of Steps"/>
+            <property name="currentStage" type="String" label="Current Step"/>
+             <property name="indicatorType" type="String" placeholder="Path or Base" label="Indicator Type"/>
+             <property name="stageTitle" type="String"  label="Stage Title"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

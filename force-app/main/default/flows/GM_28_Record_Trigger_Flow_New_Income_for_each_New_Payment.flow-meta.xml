@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>sendEmail</name>
+        <label>sendEmail</label>
+        <locationX>50</locationX>
+        <locationY>755</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Create_Success_Log</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>$Record.Member__r.PersonEmail</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderAddress</name>
+            <value>
+                <elementReference>$User.Email</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <stringValue>your recent purchase at GYM Master Shop</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>emailBody</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>60.0</apiVersion>
+    <decisions>
+        <name>Create_Error_Log</name>
+        <label>Create Error Log?</label>
+        <locationX>710</locationX>
+        <locationY>647</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Error_Log</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CreateErrorLog</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Error_Logs</targetReference>
+            </connector>
+            <label>Error Log</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Create_Success_Log</name>
+        <label>Create Success Log?</label>
+        <locationX>182</locationX>
+        <locationY>947</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>success_Log</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CreateSuccessLog</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>success_Logs</targetReference>
+            </connector>
+            <label>success Log</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Notify_Member</name>
+        <label>Notify Member?</label>
+        <locationX>182</locationX>
+        <locationY>647</locationY>
+        <defaultConnector>
+            <targetReference>Create_Success_Log</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Notify</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>NotifyMember</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>sendEmail</targetReference>
+            </connector>
+            <label>Notify</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Run_Flow</name>
+        <label>Run Flow?</label>
+        <locationX>644</locationX>
+        <locationY>431</locationY>
+        <defaultConnector>
+            <targetReference>Error_Log2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Run</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>RunFlow</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>create_Income</targetReference>
+            </connector>
+            <label>Run</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>GM  28 || Record Trigger Flow ||  New Income for each New Payment {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>GM  28 || Record Trigger Flow ||  New Income for each New Payment</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>create_Income</name>
+        <label>create Income</label>
+        <locationX>182</locationX>
+        <locationY>539</locationY>
+        <connector>
+            <targetReference>Notify_Member</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Create_Error_Log</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Income_Label__c</field>
+            <value>
+                <stringValue>New Income</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Income_Status__c</field>
+            <value>
+                <stringValue>Paid</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Member__c</field>
+            <value>
+                <elementReference>$Record.Member__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Paid_Amount__c</field>
+            <value>
+                <elementReference>$Record.Total_Price__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Paid_Date__c</field>
+            <value>
+                <elementReference>$Record.Sold_Date__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Income__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Error_Log2</name>
+        <label>Error Log2</label>
+        <locationX>1106</locationX>
+        <locationY>539</locationY>
+        <inputAssignments>
+            <field>Is_Error__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Log_Title__c</field>
+            <value>
+                <stringValue>GM 28 || Record Trigger Flow || New Income for each New Payment  </stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Log_Type__c</field>
+            <value>
+                <stringValue>Flow</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MessageBody__c</field>
+            <value>
+                <stringValue>Meta data is OFF</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ObjectID__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>API_Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Error_Logs</name>
+        <label>Error Logs</label>
+        <locationX>578</locationX>
+        <locationY>755</locationY>
+        <inputAssignments>
+            <field>Is_Error__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Log_Title__c</field>
+            <value>
+                <stringValue>GM 28 || Record Trigger Flow || New Income for each New Payment  </stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Log_Type__c</field>
+            <value>
+                <stringValue>Flow</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MessageBody__c</field>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ObjectID__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>API_Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>success_Logs</name>
+        <label>success Logs</label>
+        <locationX>50</locationX>
+        <locationY>1055</locationY>
+        <inputAssignments>
+            <field>Is_Error__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Log_Title__c</field>
+            <value>
+                <stringValue>GM 28 || Record Trigger Flow || New Income for each New Payment  </stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Log_Type__c</field>
+            <value>
+                <stringValue>Flow</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MessageBody__c</field>
+            <value>
+                <stringValue>new Income is created</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ObjectID__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>API_Log__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>get_Config</name>
+        <label>get Config</label>
+        <locationX>644</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Run_Flow</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Label</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>GM 28 | Record Trigger Flow New Income</stringValue>
+            </value>
+        </filters>
+        <object>Flow_Config__mdt</object>
+        <outputAssignments>
+            <assignToReference>RunFlow</assignToReference>
+            <field>Active__c</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>CreateErrorLog</assignToReference>
+            <field>Error_Log__c</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>NotifyMember</assignToReference>
+            <field>Notify_Member__c</field>
+        </outputAssignments>
+        <outputAssignments>
+            <assignToReference>CreateSuccessLog</assignToReference>
+            <field>Success_Log__c</field>
+        </outputAssignments>
+    </recordLookups>
+    <start>
+        <locationX>518</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>get_Config</targetReference>
+        </connector>
+        <object>Sold_Product__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+    <textTemplates>
+        <name>emailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;pre class=&quot;ql-syntax&quot; spellcheck=&quot;false&quot;&gt;Dear {!$Record.Member__r.FirstName} {!$Record.Member__r.LastName},
+
+We are thrilled to inform you that your recent purchase has been successfully processed at Gym Master Shop. Here are the details of your order:
+
+Product Name: {!$Record.Product__r.Name}
+Quantity: {!$Record.Quantity__c}
+Price: {!$Record.Total_Price__c}
+
+Thank you for choosing Gym Master Shop for your fitness needs. If you have any questions or require further assistance, please don&apos;t hesitate to reach out to us.
+
+Keep striving for your fitness goals!
+
+Best regards, {!$User.FirstName} {!$User.LastName}
+
+Gym Master Shop Team
+
+
+
+
+&lt;/pre&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>CreateErrorLog</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>CreateSuccessLog</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>NotifyMember</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>RunFlow</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

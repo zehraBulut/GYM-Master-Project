@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <assignments>
+        <name>Get_Member_Email</name>
+        <label>Get Member Email</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <assignmentItems>
+            <assignToReference>emailList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Member__r.PersonEmail</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Send_Email</targetReference>
+        </connector>
+    </assignments>
+    <environments>Default</environments>
+    <interviewLabel>GM 33 || Class Enrollment Notification (her kayitta mail at) {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>GM 33 || Class Enrollment Notification (her kayitta mail at)</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Member_Email</targetReference>
+        </connector>
+        <object>Enrollment__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>Send_Email</name>
+        <label>Send Email</label>
+        <locationX>176</locationX>
+        <locationY>431</locationY>
+        <flowName>SubFlow_Send_Email_Action</flowName>
+        <inputAssignments>
+            <name>emailBody</name>
+            <value>
+                <elementReference>emailBody</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>emailCollection</name>
+            <value>
+                <elementReference>emailList</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <textTemplates>
+        <name>emailBody</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;pre class=&quot;ql-syntax&quot; spellcheck=&quot;false&quot;&gt;Dear {!$Record.Member__r.FirstName},
+
+We&apos;re thrilled to inform you that your enrollment in the {!$Record.Class__r.Name}  class has been successfully confirmed. You&apos;re all set to embark on this exciting fitness journey!
+
+Here are the details for your upcoming class:
+
+Class Name :{!$Record.Class__r.Name}
+&lt;/pre&gt;&lt;p&gt;Date: {!$Flow.CurrentDate}&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Prepare yourself for a dynamic workout and an opportunity to push your limits in a supportive environment.&lt;/p&gt;&lt;pre class=&quot;ql-syntax&quot; spellcheck=&quot;false&quot;&gt;If you have any questions or need assistance, feel free to reach out to us. We&apos;re here to ensure you have a rewarding experience at Gym Master.
+
+We look forward to seeing you at the class and witnessing your progress firsthand!
+
+Best regards,
+{!$User.FirstName}
+Gym Master Team
+&lt;/pre&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>EmailSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Class Enrollment Confirmation: Secure Your Spot in   {!$Record.Class__r.Name}</text>
+    </textTemplates>
+    <variables>
+        <name>emailList</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

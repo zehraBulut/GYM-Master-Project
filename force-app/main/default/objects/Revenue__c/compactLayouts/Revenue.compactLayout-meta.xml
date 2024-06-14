@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Revenue</fullName>
+    <fields>Revenue_Year__c</fields>
+    <fields>Start_Date__c</fields>
+    <fields>End_Date__c</fields>
+    <fields>Net_Revenue__c</fields>
+    <label>Revenue</label>
+</CompactLayout>

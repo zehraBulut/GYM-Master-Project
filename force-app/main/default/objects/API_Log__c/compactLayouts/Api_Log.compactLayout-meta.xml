@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Api_Log</fullName>
+    <fields>Log_Title__c</fields>
+    <fields>Log_Type__c</fields>
+    <fields>Is_Error__c</fields>
+    <label>Api Log</label>
+</CompactLayout>

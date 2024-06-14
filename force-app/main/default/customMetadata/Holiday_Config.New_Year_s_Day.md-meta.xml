@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>New Year’s Day</label>
+    <protected>false</protected>
+    <values>
+        <field>Email_Body__c</field>
+        <value xsi:type="xsd:string">&lt;p&gt;Sevgili [İsim/Değerli Dostumuz],&lt;/p&gt;
+                &lt;p&gt;2023&apos;ü geride bırakırken, yepyeni umutlar ve heyecanlarla dolu 2024&apos;e merhaba diyoruz. Bu özel zamanda, geride bıraktığımız yılın güzelliklerini ve öğrenimlerini hatırlayarak, yeni yılın bize getireceği fırsatları coşkuyla karşılıyoruz.&lt;/p&gt;
+                &lt;p&gt;Bu vesileyle, sizin ve sevdiklerinizin sağlıklı, mutlu ve başarılı bir yıl geçirmesini dileriz. Her anınızın mutluluk ve huzurla dolu olmasını temenni eder, hedeflerinize ve hayallerinize ulaşmanız için en içten dileklerimizi sunarız.&lt;/p&gt;
+                &lt;p&gt;Yeni yılınız kutlu olsun!&lt;/p&gt;
+                &lt;p&gt;Sevgilerimizle,&lt;/p&gt;
+                &lt;p&gt;[Adınız/Sirket Adı]&lt;/p&gt;</value>
+    </values>
+    <values>
+        <field>Email_Subject__c</field>
+        <value xsi:type="xsd:string">Yeni Yılın Kutlu Olsun!</value>
+    </values>
+</CustomMetadata>

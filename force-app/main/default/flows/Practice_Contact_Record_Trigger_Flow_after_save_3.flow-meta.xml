@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <assignments>
+        <name>assign_description</name>
+        <label>assign description</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Description</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Description</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>assign_description2</name>
+        <label>assign description</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Description</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Description_II</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>When</name>
+        <label>When?</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>assign_description2</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>update?</defaultConnectorLabel>
+        <rules>
+            <name>On_create</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.CreatedDate</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assign_description</targetReference>
+            </connector>
+            <label>On create?</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>Practice || Contact Record Trigger Flow || after save 3 {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Practice || Contact Record Trigger Flow || after save 3</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>When</targetReference>
+        </connector>
+        <object>Contact</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Draft</status>
+    <textTemplates>
+        <name>Description</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;strong&gt;contact was CREATED&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Flow RUNS &lt;/strong&gt;&lt;strong style=&quot;color: rgb(211, 27, 192);&quot;&gt;on CREATE  !!!&lt;/strong&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>Description_II</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;strong&gt;contact was updated&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Flow runs &lt;/strong&gt;&lt;strong style=&quot;color: rgb(21, 145, 47);&quot;&gt;ON UPDATED&lt;/strong&gt;&lt;/p&gt;</text>
+    </textTemplates>
+</Flow>

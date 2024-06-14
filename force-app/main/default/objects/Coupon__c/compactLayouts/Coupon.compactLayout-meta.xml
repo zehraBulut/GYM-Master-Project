@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Coupon</fullName>
+    <fields>Name</fields>
+    <fields>Active__c</fields>
+    <fields>Discount_Type__c</fields>
+    <fields>Enrollment_Type__c</fields>
+    <fields>Valid_From_Date__c</fields>
+    <label>Coupon</label>
+</CompactLayout>

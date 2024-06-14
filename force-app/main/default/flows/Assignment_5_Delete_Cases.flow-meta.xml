@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <apiVersion>60.0</apiVersion>
+    <assignments>
+        <name>assign</name>
+        <label>assign</label>
+        <locationX>50</locationX>
+        <locationY>458</locationY>
+        <assignmentItems>
+            <assignToReference>numberofCase</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>get_case_priority</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>delete_case</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>will_I_delete</name>
+        <label>will I delete?</label>
+        <locationX>182</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>screen_D</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>null</defaultConnectorLabel>
+        <rules>
+            <name>if_there_is_case</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>get_case_priority</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assign</targetReference>
+            </connector>
+            <label>if there is case</label>
+        </rules>
+    </decisions>
+    <dynamicChoiceSets>
+        <name>priority</name>
+        <dataType>Picklist</dataType>
+        <displayField xsi:nil="true"/>
+        <object xsi:nil="true"/>
+        <picklistField>Priority</picklistField>
+        <picklistObject>Case</picklistObject>
+    </dynamicChoiceSets>
+    <environments>Default</environments>
+    <interviewLabel>Assignment 5 | Delete Cases {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Assignment 5 | Delete Cases</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordDeletes>
+        <name>delete_case</name>
+        <label>delete case</label>
+        <locationX>50</locationX>
+        <locationY>566</locationY>
+        <connector>
+            <targetReference>screen_F</targetReference>
+        </connector>
+        <inputReference>get_case_priority</inputReference>
+    </recordDeletes>
+    <recordLookups>
+        <name>get_case_priority</name>
+        <label>get case priority</label>
+        <locationX>182</locationX>
+        <locationY>242</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>will_I_delete</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Priority</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>select_priority</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Case</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <screens>
+        <name>screen_A</name>
+        <label>screen A</label>
+        <locationX>182</locationX>
+        <locationY>134</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>get_case_priority</targetReference>
+        </connector>
+        <fields>
+            <name>select_priority</name>
+            <choiceReferences>priority</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>select priority</fieldText>
+            <fieldType>DropdownBox</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+        </fields>
+        <nextOrFinishButtonLabel>Select</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>screen_D</name>
+        <label>screen D</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Dmsg</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255); font-size: 18px; font-family: Arial, sans-serif; color: rgb(255, 102, 0);&quot;&gt;&lt;em&gt;No cases found for deletion!!!&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>DonE</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>screen_F</name>
+        <label>screen F</label>
+        <locationX>50</locationX>
+        <locationY>674</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>Dmsg2</name>
+            <fieldText>&lt;p&gt;&lt;strong style=&quot;color: rgb(0, 128, 0); font-family: Arial, sans-serif; font-size: 18px; background-color: rgb(255, 255, 255);&quot;&gt;&lt;em&gt;{!numberofCase} cases have been deleted :) &lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <nextOrFinishButtonLabel>DonE</nextOrFinishButtonLabel>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>screen_A</targetReference>
+        </connector>
+    </start>
+    <status>Draft</status>
+    <variables>
+        <name>numberofCase</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+</Flow>

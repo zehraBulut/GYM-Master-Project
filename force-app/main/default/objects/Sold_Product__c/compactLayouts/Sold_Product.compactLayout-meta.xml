@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CompactLayout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Sold_Product</fullName>
+    <fields>Product__c</fields>
+    <fields>Quantity__c</fields>
+    <fields>Unit_price__c</fields>
+    <fields>Sold_Date__c</fields>
+    <fields>Member__c</fields>
+    <label>Sold Product</label>
+</CompactLayout>
